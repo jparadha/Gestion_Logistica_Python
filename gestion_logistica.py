@@ -13,38 +13,45 @@ def conectar_bd():
             database="gestion_logistica"
         )
         return conexion
-    
+
     except mysql.connector.Error as err:
         messagebox.showerror(
-            "Error de conexion  ",
+            "Error de conexión",
             f"No se pudo conectar a la base de datos:\n{err}"
         )
 
         return None
-    
-#VENTANA PRINCIPAL
+
+
+# VENTANA PRINCIPAL
 
 ventana = tk.Tk()
 ventana.title("Sistema de Gestión de Logística")
 ventana.geometry("1050x650")
 ventana.configure(bg="#f1f5f9")
 
-#TITULO
+
+# TÍTULO
 
 titulo = tk.Label(
     ventana,
     text="Sistema de Gestión de Logística",
     font=("Arial", 22, "bold"),
-    fg="#f1f5f9",
-    bg="#0f172a",
+    fg="white",
+    bg="#0f172a"
 )
-titulo.pack(pady=15)
 
-#FRAME USUARIO
+titulo.pack(
+    pady=15,
+    fill=tk.X
+)
+
+
+# FRAME FORMULARIO
 
 frame_formulario = tk.LabelFrame(
     ventana,
-    text="Informacion del Envio",
+    text="Información del Envío",
     bg="white",
     font=("Arial", 10, "bold"),
     padx=20,
@@ -54,8 +61,9 @@ frame_formulario = tk.LabelFrame(
 frame_formulario.pack(
     padx=20,
     pady=10,
-    fill=tk.X,
+    fill=tk.X
 )
+
 
 # CAMPOS DEL FORMULARIO
 
@@ -81,42 +89,50 @@ for texto, fila in campos:
         pady=5
     )
 
-   # ENTRADAS
+
+# ENTRADAS
 
 entry_seguimiento = tk.Entry(
     frame_formulario,
     width=40
 )
+
 entry_seguimiento.grid(
     row=0,
     column=1,
     padx=10
 )
 
+
 entry_origen = tk.Entry(
     frame_formulario,
     width=40
 )
+
 entry_origen.grid(
     row=1,
     column=1,
     padx=10
 )
 
+
 entry_destino = tk.Entry(
     frame_formulario,
     width=40
 )
+
 entry_destino.grid(
     row=2,
     column=1,
     padx=10
 )
 
+
 entry_fecha = tk.Entry(
     frame_formulario,
     width=40
 )
+
 entry_fecha.grid(
     row=3,
     column=1,
@@ -145,7 +161,87 @@ combo_estado.grid(
 
 combo_estado.set("En tránsito")
 
-ventana = tk.Tk()
+
+# FRAME BOTONES
+
+frame_botones = tk.Frame(
+    ventana,
+    bg="#f1f5f9"
+)
+
+frame_botones.pack(
+    pady=15
+)
+
+
+# BOTÓN AGREGAR
+
+btn_agregar = tk.Button(
+    frame_botones,
+    text="Agregar",
+    bg="#15803d",
+    fg="white",
+    width=15,
+    font=("Arial", 10, "bold")
+)
+
+btn_agregar.pack(
+    side="left",
+    padx=5
+)
+
+
+# BOTÓN ACTUALIZAR
+
+btn_actualizar = tk.Button(
+    frame_botones,
+    text="Actualizar",
+    bg="#2563eb",
+    fg="white",
+    width=15,
+    font=("Arial", 10, "bold")
+)
+
+btn_actualizar.pack(
+    side="left",
+    padx=5
+)
+
+
+# BOTÓN ELIMINAR
+
+btn_eliminar = tk.Button(
+    frame_botones,
+    text="Eliminar",
+    bg="#dc2626",
+    fg="white",
+    width=15,
+    font=("Arial", 10, "bold")
+)
+
+btn_eliminar.pack(
+    side="left",
+    padx=5
+)
+
+
+# BOTÓN LIMPIAR
+
+btn_limpiar = tk.Button(
+    frame_botones,
+    text="Limpiar",
+    bg="#6b7280",
+    fg="white",
+    width=15,
+    font=("Arial", 10, "bold")
+)
+
+btn_limpiar.pack(
+    side="left",
+    padx=5
+)
+
+
 
 # EJECUTAR VENTANA
 
