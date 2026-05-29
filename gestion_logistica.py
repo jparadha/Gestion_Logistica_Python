@@ -56,3 +56,97 @@ frame_formulario.pack(
     pady=10,
     fill=tk.X,
 )
+
+# CAMPOS DEL FORMULARIO
+
+campos = [
+    ("Número de Seguimiento:", 0),
+    ("Origen:", 1),
+    ("Destino:", 2),
+    ("Fecha Entrega:", 3),
+    ("Estado:", 4)
+]
+
+for texto, fila in campos:
+
+    tk.Label(
+        frame_formulario,
+        text=texto,
+        bg="white",
+        font=("Arial", 10)
+    ).grid(
+        row=fila,
+        column=0,
+        sticky="w",
+        pady=5
+    )
+
+   # ENTRADAS
+
+entry_seguimiento = tk.Entry(
+    frame_formulario,
+    width=40
+)
+entry_seguimiento.grid(
+    row=0,
+    column=1,
+    padx=10
+)
+
+entry_origen = tk.Entry(
+    frame_formulario,
+    width=40
+)
+entry_origen.grid(
+    row=1,
+    column=1,
+    padx=10
+)
+
+entry_destino = tk.Entry(
+    frame_formulario,
+    width=40
+)
+entry_destino.grid(
+    row=2,
+    column=1,
+    padx=10
+)
+
+entry_fecha = tk.Entry(
+    frame_formulario,
+    width=40
+)
+entry_fecha.grid(
+    row=3,
+    column=1,
+    padx=10
+)
+
+
+# COMBOBOX ESTADO
+
+combo_estado = ttk.Combobox(
+    frame_formulario,
+    values=[
+        "Pendiente",
+        "En tránsito",
+        "Entregado"
+    ],
+    width=37,
+    state="readonly"
+)
+
+combo_estado.grid(
+    row=4,
+    column=1,
+    padx=10
+)
+
+combo_estado.set("En tránsito")
+
+ventana = tk.Tk()
+
+# EJECUTAR VENTANA
+
+ventana.mainloop()
