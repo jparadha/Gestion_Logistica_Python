@@ -241,7 +241,89 @@ btn_limpiar.pack(
     padx=5
 )
 
+# FRAME TABLA
 
+frame_tabla = tk.LabelFrame(
+    ventana,
+    text="Envíos Registrados",
+    bg="white",
+    font=("Arial", 10, "bold"),
+    padx=10,
+    pady=10
+)
+
+frame_tabla.pack(
+    padx=20,
+    pady=10,
+    fill="both",
+    expand=True
+)
+
+
+# TREEVIEW
+
+columnas = (
+    "ID",
+    "Seguimiento",
+    "Origen",
+    "Destino",
+    "Fecha",
+    "Estado"
+)
+
+tabla = ttk.Treeview(
+    frame_tabla,
+    columns=columnas,
+    show="headings"
+)
+
+
+# ENCABEZADOS
+
+tabla.heading("ID", text="ID")
+tabla.heading("Seguimiento", text="N° Seguimiento")
+tabla.heading("Origen", text="Origen")
+tabla.heading("Destino", text="Destino")
+tabla.heading("Fecha", text="Fecha Entrega")
+tabla.heading("Estado", text="Estado")
+
+
+# ANCHO COLUMNAS
+
+tabla.column("ID", width=50, anchor="center")
+tabla.column("Seguimiento", width=150, anchor="center")
+tabla.column("Origen", width=150, anchor="center")
+tabla.column("Destino", width=150, anchor="center")
+tabla.column("Fecha", width=120, anchor="center")
+tabla.column("Estado", width=120, anchor="center")
+
+
+tabla.pack(
+    side="left",
+    fill="both",
+    expand=True
+)
+
+
+# SCROLLBAR
+
+scroll = tk.Scrollbar(
+    frame_tabla,
+    orient="vertical"
+)
+
+scroll.pack(
+    side="right",
+    fill="y"
+)
+
+tabla.config(
+    yscrollcommand=scroll.set
+)
+
+scroll.config(
+    command=tabla.yview
+)
 
 # EJECUTAR VENTANA
 
