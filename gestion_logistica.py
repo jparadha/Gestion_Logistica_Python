@@ -22,6 +22,16 @@ def conectar_bd():
 
         return None
 
+# LIMPIAR CAMPOS
+
+def limpiar_campos():
+
+    entry_seguimiento.delete(0, tk.END)
+    entry_origen.delete(0, tk.END)
+    entry_destino.delete(0, tk.END)
+    entry_fecha.delete(0, tk.END)
+
+    combo_estado.set("En tránsito")
 
 # VENTANA PRINCIPAL
 
@@ -230,6 +240,7 @@ btn_eliminar.pack(
 btn_limpiar = tk.Button(
     frame_botones,
     text="Limpiar",
+    command=limpiar_campos,
     bg="#6b7280",
     fg="white",
     width=15,
