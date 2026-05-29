@@ -1,0 +1,5 @@
+Gestion_Logistica_Python/
+│
+├── app.py
+├── README.md
+└── gestion_logistica.sql
