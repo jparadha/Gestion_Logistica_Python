@@ -153,6 +153,27 @@ def agregar_envio():
         cursor.close()
         conexion.close()
 
+def seleccionar_registro(event):
+
+    seleccionado = tabla.focus()
+
+    if not seleccionado:
+        return
+
+    datos = tabla.item(
+        seleccionado,
+        "values"
+    )
+
+    limpiar_campos()
+
+    entry_seguimiento.insert(0, datos[1])
+    entry_origen.insert(0, datos[2])
+    entry_destino.insert(0, datos[3])
+    entry_fecha.insert(0, datos[4])
+
+    combo_estado.set(datos[5])
+
 # INTERFAZ GRÁFICA
 
 ventana = tk.Tk()
@@ -455,6 +476,11 @@ tabla.config(
 
 scroll.config(
     command=tabla.yview
+)
+
+tabla.bind(
+    "<<TreeviewSelect>>",
+    seleccionar_registro
 )
 
 mostrar_envios()
