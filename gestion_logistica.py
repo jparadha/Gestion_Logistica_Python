@@ -33,6 +33,52 @@ def limpiar_campos():
 
     combo_estado.set("En tránsito")
 
+# MOSTRAR ENVÍOS
+
+def mostrar_envios():
+
+    conexion = conectar_bd()
+
+    if conexion is None:
+        return
+
+    cursor = conexion.cursor()
+
+    try:
+
+        cursor.execute("""
+            SELECT *
+            FROM Envios
+            ORDER BY ID ASC
+        """)
+
+        registros = cursor.fetchall()
+
+        # Limpiar tabla antes de cargar datos nuevos
+        for fila in tabla.get_children():
+            tabla.delete(fila)
+
+        # Insertar registros
+        for registro in registros:
+
+            tabla.insert(
+                "",
+                tk.END,
+                values=registro
+            )
+
+    except mysql.connector.Error as err:
+
+        messagebox.showerror(
+            "Error",
+            f"No se pudieron mostrar los envíos:\n{err}"
+        )
+
+    finally:
+
+        cursor.close()
+        conexion.close()
+
 # VENTANA PRINCIPAL
 
 ventana = tk.Tk()
@@ -335,6 +381,8 @@ tabla.config(
 scroll.config(
     command=tabla.yview
 )
+
+mostrar_envios()
 
 # EJECUTAR VENTANA
 
