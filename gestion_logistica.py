@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import mysql.connector
+id_seleccionado = None
 
 # CONEXIÓN A LA BASE DE DATOS
 
@@ -155,6 +156,8 @@ def agregar_envio():
 
 def seleccionar_registro(event):
 
+    global id_seleccionado
+
     seleccionado = tabla.focus()
 
     if not seleccionado:
@@ -165,6 +168,8 @@ def seleccionar_registro(event):
         "values"
     )
 
+    id_seleccionado = datos[0]
+
     limpiar_campos()
 
     entry_seguimiento.insert(0, datos[1])
@@ -173,6 +178,71 @@ def seleccionar_registro(event):
     entry_fecha.insert(0, datos[4])
 
     combo_estado.set(datos[5])
+
+def actualizar_envio():
+
+    global id_seleccionado
+
+    if id_seleccionado is None:
+
+        messagebox.showwarning(
+            "Selección requerida",
+            "Debe seleccionar un envío."
+        )
+
+        return
+
+    conexion = conectar_bd()
+
+    if conexion is None:
+        return
+
+    cursor = conexion.cursor()
+
+    try:
+
+        cursor.execute("""
+            UPDATE Envios
+            SET
+                NumeroSeguimiento=%s,
+                Origen=%s,
+                Destino=%s,
+                FechaEntregaPrevista=%s,
+                Estado=%s
+            WHERE ID=%s
+        """,
+        (
+            entry_seguimiento.get(),
+            entry_origen.get(),
+            entry_destino.get(),
+            entry_fecha.get(),
+            combo_estado.get(),
+            id_seleccionado
+        ))
+
+        conexion.commit()
+
+        messagebox.showinfo(
+            "Éxito",
+            "Envío actualizado correctamente."
+        )
+
+        mostrar_envios()
+        limpiar_campos()
+
+        id_seleccionado = None
+
+    except mysql.connector.Error as err:
+
+        messagebox.showerror(
+            "Error",
+            f"No se pudo actualizar el envío:\n{err}"
+        )
+
+    finally:
+
+        cursor.close()
+        conexion.close()
 
 # INTERFAZ GRÁFICA
 
@@ -348,6 +418,7 @@ btn_agregar.pack(
 btn_actualizar = tk.Button(
     frame_botones,
     text="Actualizar",
+    command=actualizar_envio,
     bg="#2563eb",
     fg="white",
     width=15,
