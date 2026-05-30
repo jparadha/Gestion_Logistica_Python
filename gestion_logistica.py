@@ -244,6 +244,67 @@ def actualizar_envio():
         cursor.close()
         conexion.close()
 
+def eliminar_envio():
+
+    global id_seleccionado
+
+    if id_seleccionado is None:
+
+        messagebox.showwarning(
+            "Selección requerida",
+            "Debe seleccionar un envío."
+        )
+
+        return
+
+    respuesta = messagebox.askyesno(
+        "Confirmar eliminación",
+        "¿Desea eliminar el envío seleccionado?"
+    )
+
+    if not respuesta:
+        return
+
+    conexion = conectar_bd()
+
+    if conexion is None:
+        return
+
+    cursor = conexion.cursor()
+
+    try:
+
+        cursor.execute("""
+            DELETE FROM Envios
+            WHERE ID = %s
+        """,
+        (id_seleccionado,)
+        )
+
+        conexion.commit()
+
+        messagebox.showinfo(
+            "Éxito",
+            "Envío eliminado correctamente."
+        )
+
+        mostrar_envios()
+        limpiar_campos()
+
+        id_seleccionado = None
+
+    except mysql.connector.Error as err:
+
+        messagebox.showerror(
+            "Error",
+            f"No se pudo eliminar el envío:\n{err}"
+        )
+
+    finally:
+
+        cursor.close()
+        conexion.close()
+
 # INTERFAZ GRÁFICA
 
 ventana = tk.Tk()
@@ -436,6 +497,7 @@ btn_actualizar.pack(
 btn_eliminar = tk.Button(
     frame_botones,
     text="Eliminar",
+    command=eliminar_envio,
     bg="#dc2626",
     fg="white",
     width=15,
