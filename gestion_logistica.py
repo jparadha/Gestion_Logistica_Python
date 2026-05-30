@@ -79,7 +79,81 @@ def mostrar_envios():
         cursor.close()
         conexion.close()
 
-# VENTANA PRINCIPAL
+# AGREGAR ENVÍO
+
+def agregar_envio():
+
+    seguimiento = entry_seguimiento.get()
+    origen = entry_origen.get()
+    destino = entry_destino.get()
+    fecha = entry_fecha.get()
+    estado = combo_estado.get()
+
+    if not (
+        seguimiento and
+        origen and
+        destino and
+        fecha
+    ):
+
+        messagebox.showwarning(
+            "Campos vacíos",
+            "Debe completar todos los campos."
+        )
+
+        return
+
+    conexion = conectar_bd()
+
+    if conexion is None:
+        return
+
+    cursor = conexion.cursor()
+
+    try:
+
+        cursor.execute("""
+            INSERT INTO Envios
+            (
+                NumeroSeguimiento,
+                Origen,
+                Destino,
+                FechaEntregaPrevista,
+                Estado
+            )
+            VALUES (%s, %s, %s, %s, %s)
+        """,
+        (
+            seguimiento,
+            origen,
+            destino,
+            fecha,
+            estado
+        ))
+
+        conexion.commit()
+
+        messagebox.showinfo(
+            "Éxito",
+            "Envío agregado correctamente."
+        )
+
+        mostrar_envios()
+        limpiar_campos()
+
+    except mysql.connector.Error as err:
+
+        messagebox.showerror(
+            "Error",
+            f"No se pudo agregar el envío:\n{err}"
+        )
+
+    finally:
+
+        cursor.close()
+        conexion.close()
+
+# INTERFAZ GRÁFICA
 
 ventana = tk.Tk()
 ventana.title("Sistema de Gestión de Logística")
@@ -235,6 +309,7 @@ frame_botones.pack(
 btn_agregar = tk.Button(
     frame_botones,
     text="Agregar",
+    command=agregar_envio,
     bg="#15803d",
     fg="white",
     width=15,
@@ -311,7 +386,7 @@ frame_tabla = tk.LabelFrame(
 
 frame_tabla.pack(
     padx=20,
-    pady=10,
+    pady=15,
     fill="both",
     expand=True
 )
